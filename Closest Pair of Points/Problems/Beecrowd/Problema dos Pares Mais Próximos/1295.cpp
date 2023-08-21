@@ -24,8 +24,8 @@ int compareY(Point p1, Point p2) {
 
 double brute_force(vector<Point>& P, int left, int right) {
     double shorter_distance = DBL_MAX;
-    for (int i = left; i <= right; ++i) {
-        for (int j = i + 1; j <= right; ++j) {
+    for (int i = left; i < right; ++i) {
+        for (int j = i + 1; j < right; ++j) {
             shorter_distance = min(shorter_distance, hypot(P[i].X - P[j].X, P[i].Y - P[j].Y));
         }
     }
@@ -33,12 +33,12 @@ double brute_force(vector<Point>& P, int left, int right) {
 }
 
 double closest_pair(vector<Point>& P, int left, int right) {
-    if (right - left < 3) {
+    if (right - left <= 3) {
         return brute_force(P, left, right);
     }
     int m = (left + right)/2;
     double dl = closest_pair(P, left, m);
-    double dr = closest_pair(P, m+1, right);
+    double dr = closest_pair(P, m, right);
     double d = min(dl, dr);
 
     vector<Point> strip;
@@ -72,7 +72,7 @@ int main() {
         }
 
         sort(Q.begin(), Q.end(), compareX);
-        double shorter_distance = closest_pair(Q, 0, Q.size()-1);
+        double shorter_distance = closest_pair(Q, 0, Q.size());
         
         if (shorter_distance >= 10000.0)
             cout << "INFINITY\n";
